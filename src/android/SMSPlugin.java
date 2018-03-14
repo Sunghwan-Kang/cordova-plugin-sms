@@ -347,11 +347,15 @@ extends CordovaPlugin {
                     if ((bundle = intent.getExtras()) != null) {
                         Object[] pdus;
                         if ((pdus = (Object[])bundle.get("pdus")).length != 0) {
-                            for (int i = 0; i < pdus.length; ++i) {
-                                SmsMessage sms = SmsMessage.createFromPdu((byte[])((byte[])pdus[i]));
-                                JSONObject json = SMSPlugin.this.getJsonFromSmsMessage(sms);
-                                SMSPlugin.this.onSMSArrive(json);
-                            }
+                                                      //FIXME 호출이 2번되서 pdus for문을 돌리지 않는다.
+//                            for (int i = 0; i < pdus.length; ++i) {
+//                                SmsMessage sms = SmsMessage.createFromPdu((byte[])((byte[])pdus[i]));
+//                                JSONObject json = SMSPlugin.this.getJsonFromSmsMessage(sms);
+//                                SMSPlugin.this.onSMSArrive(json);
+//                            }
+                            SmsMessage sms = SmsMessage.createFromPdu((byte[]) ((byte[]) pdus[0]));
+                            JSONObject json = SMSPlugin.this.getJsonFromSmsMessage(sms);
+                            SMSPlugin.this.onSMSArrive(json);
                         }
                     }
                 }
